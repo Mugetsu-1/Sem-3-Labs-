@@ -1,47 +1,89 @@
 #include <iostream>
-#include <vector>
-using namespace std;
-
-class Node {
-public:
-    int data;
-    Node *left = NULL, *right = NULL;
-    Node(int val) : data(val) {}
-};
 
 class BST {
-    Node* root = NULL;
-    vector<int> elements;
+private:
+    class Node {  // Using class instead of struct
+    public:
+        int data;
+        Node* left;
+        Node* right;
 
-    Node* insert(Node* node, int val) {
-        if (!node) return new Node(val);
-        (val < node->data ? node->left : node->right) = insert(val < node->data ? node->left : node->right, val);
+        Node(int value) {
+            data = value;
+            left = right = NULL;
+        }
+    };
+
+    Node* root;
+
+    Node* insert(Node* node, int value) {
+        if (node == NULL) return new Node(value);
+        if (value < node->data)
+            node->left = insert(node->left, value);
+        else if (value > node->data)
+            node->right = insert(node->right, value);
         return node;
     }
 
+    bool search(Node* node, int value) {
+        if (node == NULL) return false;
+        if (node->data == value) return true;
+        if (value < node->data) return search(node->left, value);
+        return search(node->right, value);
+    }
+
     void inorder(Node* node) {
-        if (node) {
-            inorder(node->left);
-            cout << node->data << " ";
-            inorder(node->right);
-        }
+        if (node == NULL) return;
+        inorder(node->left);
+        std::cout << node->data << " ";
+        inorder(node->right);
     }
 
 public:
-    void insert(int val) { root = insert(root, val); elements.push_back(val); }
-    void display() { inorder(root); cout << endl; }
-    void displayUnsorted() { for (size_t i = 0; i < elements.size(); i++) cout << elements[i] << " "; cout << endl; }
+    BST() { root = NULL; }
+
+    void insert(int value) { root = insert(root, value); }
+
+    bool search(int value) { return search(root, value); }
+
+    void inorder() {
+        inorder(root);
+        std::cout << std::endl;
+    }
 };
 
 int main() {
     BST tree;
-    int n, val;
-    cout << "Enter number of elements: ";
-    cin >> n;
-    cout << "Enter elements: ";
-    while (n-- && cin >> val) tree.insert(val);
+    int choice, value;
 
-    cout << "Unsorted list: "; tree.displayUnsorted();
-    cout << "Inorder traversal: "; tree.display();
+    do {
+        std::cout << "\n1. Insert\n2. Search\n3. Inorder Traversal\n4. Exit\nEnter choice: ";
+        std::cin >> choice;
+
+        switch (choice) {
+            case 1:
+                std::cout << "Enter value to insert: ";
+                std::cin >> value;
+                tree.insert(value);
+                break;
+            case 2:
+                std::cout << "Enter value to search: ";
+                std::cin >> value;
+                if (tree.search(value)) std::cout << "Found\n";
+                else std::cout << "Not Found\n";
+                break;
+            case 3:
+                std::cout << "Inorder Traversal: ";
+                tree.inorder();
+                break;
+            case 4:
+                std::cout << "Exiting...\n";
+                break;
+            default:
+                std::cout << "Invalid choice!\n";
+        }
+    } while (choice != 4);
+
+    return 0;
 }
 

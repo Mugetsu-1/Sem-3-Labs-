@@ -10,50 +10,44 @@ class Cube {
     char screen[20][120];  // Wider screen for side-by-side rendering
 
     void rotatePoint(Point& p, float ax, float ay, float az) {
-        float cx=cos(ax), sx=sin(ax), cy=cos(ay), sy=sin(ay), cz=cos(az), sz=sin(az);
-        float nx = p.x*(cy*cz) + p.y*(sx*sy*cz - cx*sz) + p.z*(cx*sy*cz + sx*sz);
-        float ny = p.x*(cy*sz) + p.y*(sx*sy*sz + cx*cz) + p.z*(cx*sy*sz - sx*cz);
-        float nz = p.x*(-sy) + p.y*(sx*cy) + p.z*(cx*cy);
+        float cx = cos(ax), sx = sin(ax), cy = cos(ay), sy = sin(ay), cz = cos(az), sz = sin(az);
+        float nx = p.x * (cy * cz) + p.y * (sx * sy * cz - cx * sz) + p.z * (cx * sy * cz + sx * sz);
+        float ny = p.x * (cy * sz) + p.y * (sx * sy * sz + cx * cz) + p.z * (cx * sy * sz - sx * cz);
+        float nz = p.x * (-sy) + p.y * (sx * cy) + p.z * (cx * cy);
         p.x = nx; p.y = ny; p.z = nz;
     }
 
-    void slowDelay(long iterations = 100000000) {
-        for (long i = 0; i < iterations; ++i) {
-            // Empty loop for delay
-        }
+    void slowDelay(long iterations = 800000000) { 
+        for (long i = 0; i < iterations; ++i) { 
+            // Empty loop for delay 
+        } 
     }
 
     void renderCube(Point* temp, int offsetX, float rotX, float scale) {
-        // Store projected points
         int projX[8], projY[8];
         for (int i = 0; i < 8; ++i) {
             projX[i] = static_cast<int>(temp[i].x * 7 + offsetX);
             projY[i] = static_cast<int>(temp[i].y * 7 + 10);
         }
 
-        // Edges connections (12 edges of a cube)
         int edges[12][2] = {
-            {0,1}, {1,3}, {3,2}, {2,0},  // Front face
-            {4,5}, {5,7}, {7,6}, {6,4},  // Back face
-            {0,4}, {1,5}, {2,6}, {3,7}   // Connecting edges
+            {0,1}, {1,3}, {3,2}, {2,0},  
+            {4,5}, {5,7}, {7,6}, {6,4},  
+            {0,4}, {1,5}, {2,6}, {3,7}   
         };
 
-        // Draw edges
         for (int e = 0; e < 12; ++e) {
             int x1 = projX[edges[e][0]], y1 = projY[edges[e][0]];
             int x2 = projX[edges[e][1]], y2 = projY[edges[e][1]];
 
-            // Bresenham's line algorithm
             int dx = abs(x2 - x1), sx = x1 < x2 ? 1 : -1;
             int dy = -abs(y2 - y1), sy = y1 < y2 ? 1 : -1;
             int err = dx + dy, e2;
 
             while (true) {
-                // Ensure within screen bounds
                 if (x1 >= 0 && x1 < 120 && y1 >= 0 && y1 < 20) {
                     screen[y1][x1] = '+';
                 }
-
                 if (x1 == x2 && y1 == y2) break;
                 e2 = 2 * err;
                 if (e2 >= dy) { err += dy; x1 += sx; }
@@ -61,7 +55,6 @@ class Cube {
             }
         }
 
-        // Draw vertices
         for (int i = 0; i < 8; ++i) {
             if (projX[i] >= 0 && projX[i] < 120 && projY[i] >= 0 && projY[i] < 20) {
                 screen[projY[i]][projX[i]] = '*';
@@ -88,33 +81,25 @@ public:
     }
 
     void render(float rotX = 0, float rotY = 0, float scale = 1.0) {
-        // Clear screen
         for (int i = 0; i < 20; ++i)
             for (int j = 0; j < 120; ++j)
                 screen[i][j] = ' ';
 
-        // Temporary vertices for rotation and scaling
         Point tempRotate[8], tempScale[8];
         for (int i = 0; i < 8; ++i) {
             tempRotate[i] = tempScale[i] = vertices[i];
-            
-            // Rotate
+
             if (rotX) rotatePoint(tempRotate[i], rotX, 0, 0);
             if (rotY) rotatePoint(tempRotate[i], 0, rotY, 0);
 
-            // Scale
             tempScale[i].x *= scale;
             tempScale[i].y *= scale;
             tempScale[i].z *= scale;
         }
 
-        // Render rotation cube on left side
         renderCube(tempRotate, 30, rotX, 1.0);
-
-        // Render scaling cube on right side
         renderCube(tempScale, 90, 0, scale);
 
-        // Render screen
         system("cls");
         for (int i = 0; i < 20; ++i) {
             for (int j = 0; j < 120; ++j) {
@@ -128,15 +113,14 @@ public:
 
     void demonstrate() {
         std::cout << "=== CUBE TRANSFORMATIONS ===\n";
-        
-        // Gradual rotation demo
+
         std::cout << "\nGradual Rotation and Scaling:\n";
         reset();
-        for (float progress = 0; progress <= 2*3.14159; progress += 3.14159/12) {
+        for (float progress = 0; progress <= 2 * 3.14159; progress += 3.14159 / 12) {
             float angle = progress;
             float scale = 1 + sin(progress) * 0.5;
             render(angle, angle, scale);
-            slowDelay(50000000);
+            slowDelay(800000000);  // Increased delay
         }
     }
 };
@@ -145,4 +129,5 @@ int main() {
     Cube cube;
     cube.demonstrate();
     return 0;
-}  */
+}
+*/
