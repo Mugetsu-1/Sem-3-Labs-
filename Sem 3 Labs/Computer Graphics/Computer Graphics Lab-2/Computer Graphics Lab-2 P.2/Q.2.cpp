@@ -60,7 +60,7 @@ void drawEllipse(int xc, int yc, int rx, int ry) {
 
 int main() {
     int gd = DETECT, gm;
-    initgraph(&gd, &gm, "C:\\TDM-GCC-64\\lib");
+    initgraph(&gd, &gm, "");
 
     int xc = 200, yc = 200; // Center of the ellipse
     int rx = 100, ry = 50; // Radii of the ellipse

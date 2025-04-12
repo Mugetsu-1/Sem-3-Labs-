@@ -1,0 +1,16 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity fulladder is
+    port ( 
+        a, b, c : in std_logic; 
+        s, cy : out std_logic
+    );
+end fulladder;
+
+architecture dataflow of fulladder is
+begin
+    s <= (a xor b) xor c;
+    cy <= (a and b) or (b and c) or (c and a);
+end dataflow;
+

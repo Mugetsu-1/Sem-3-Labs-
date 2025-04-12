@@ -1,0 +1,31 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.std_logic_arith.all;
+use ieee.std_logic_unsigned.all;
+
+entity yogesh_PG is
+    port(
+        data_in : in std_logic_vector(7 downto 0);
+        parity_type : in std_logic;
+        parity_bit : out std_logic
+    );
+end yogesh_PG;
+
+architecture behavioral of yogesh_PG is
+begin
+    process (data_in, parity_type)
+        variable temp : std_logic;
+    begin
+        temp := '0';
+        for i in data_in'range loop
+            temp := temp xor data_in(i);
+        end loop;
+        
+        if parity_type = '1' then  -- Even parity
+            parity_bit <= not temp;
+        else  -- Odd parity
+            parity_bit <= temp;
+        end if;
+    end process;
+end behavioral;
+

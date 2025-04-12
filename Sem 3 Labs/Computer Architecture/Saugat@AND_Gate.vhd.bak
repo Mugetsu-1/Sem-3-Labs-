@@ -1,0 +1,16 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY Saugat_AND_Gate1 IS
+    PORT (
+A : IN STD_LOGIC;
+B : IN STD_LOGIC;
+Y : OUT STD_LOGIC
+ );
+
+END Saugat_AND_Gate1;
+
+ARCHITECTURE Behavior OF Saugat_AND_Gate1 IS
+BEGIN
+     Y <= A AND B;
+END Behavior;

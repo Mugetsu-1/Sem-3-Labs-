@@ -1,0 +1,43 @@
+library ieee;
+use ieee.std_logic_1164.all;
+use ieee.numeric_std.all;
+
+entity Saugat_A_L_U is
+    port (
+        A, B : in std_logic_vector(3 downto 0);
+        Op : in std_logic_vector(2 downto 0);
+        Result : out std_logic_vector(3 downto 0);
+        Zero : out std_logic
+    );
+end Saugat_A_L_U;
+
+architecture Behavioral of Saugat_A_L_U is
+begin
+    process (A, B, Op)
+        variable temp_result : std_logic_vector(3 downto 0);
+    begin
+        case Op is
+            when "000" =>
+                temp_result := std_logic_vector(unsigned(A) + unsigned(B));
+            when "001" =>
+                temp_result := std_logic_vector(unsigned(A) - unsigned(B));
+            when "010" =>
+                temp_result := A and B;
+            when "011" =>
+                temp_result := A or B;
+            when "100" =>
+                temp_result := A xor B;
+            when others =>
+                temp_result := (others => '0');
+        end case;
+
+        Result <= temp_result;
+
+        if temp_result = "0000" then
+            Zero <= '1';
+        else
+            Zero <= '0';
+        end if;
+    end process;
+end Behavioral;
+

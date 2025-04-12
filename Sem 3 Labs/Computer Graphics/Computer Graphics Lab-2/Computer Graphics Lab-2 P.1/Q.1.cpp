@@ -39,7 +39,7 @@ void drawCircle(int xc, int yc, int r) {
 
 int main() {
     int gd = DETECT, gm; 
-    initgraph(&gd, &gm, (char*)"C:\\TDM-GCC-64\\lib");
+    initgraph(&gd, &gm, (char*)"");
 
     int xc , yc, r ; // Center and radius of the circle
     cout<<"Enter the Co-ordinate and radius\n";

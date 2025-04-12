@@ -34,7 +34,7 @@ void Bresenham(int x1, int y1, int x2, int y2) {
 
      int main() {
     int gd = DETECT, gm;
-    initgraph(&gd, &gm, (char*)"C:\\TDM-GCC-64\\lib");
+    initgraph(&gd, &gm, (char*)"");
 
     int x1, y1, x2, y2;
     cout << "Enter the coordinates of the first point (x1, y1): ";

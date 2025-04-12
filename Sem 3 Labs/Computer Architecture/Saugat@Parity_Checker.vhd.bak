@@ -1,0 +1,25 @@
+library ieee;
+use ieee.std_logic_1164.all;
+
+entity Saugat_PC is
+    port(
+        data_in     : in  std_logic_vector(7 downto 0);
+        parity_bit  : in  std_logic;
+        parity_type : in  std_logic; -- '1' for even, '0' for odd
+        error       : out std_logic  -- '1' indicates error
+    );
+end Saugat_PC;
+
+architecture behavioral of Saugat_PC is
+begin
+    process(data_in, parity_bit, parity_type)
+        variable temp : std_logic := '0';
+    begin
+        temp := parity_bit;
+        for i in data_in'range loop
+            temp := temp xor data_in(i);
+        end loop;
+        error <= '1' when (temp /= parity_type) else '0';
+    end process;
+end behavioral;
+

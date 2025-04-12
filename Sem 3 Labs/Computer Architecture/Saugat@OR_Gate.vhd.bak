@@ -1,0 +1,16 @@
+-- OR Gate
+LIBRARY ieee;
+USE ieee.std_logic_1164.ALL;
+
+ENTITY Saugat_OR_Gate IS
+    PORT (
+        A : IN STD_LOGIC;
+        B : IN STD_LOGIC;
+        Y : OUT STD_LOGIC
+    );
+END Saugat_OR_Gate;
+
+ARCHITECTURE Behavior OF Saugat_OR_Gate IS
+BEGIN
+    Y <= A OR B;
+END Behavior;

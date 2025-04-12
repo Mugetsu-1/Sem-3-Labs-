@@ -3,51 +3,52 @@
 #include <math.h>
 #include <iostream>
 
+// Function to rotate a point (x, y) around pivot (px, py)
+void rotatePoint(int x, int y, int px, int py, float angle, int &xr, int &yr) {
+    float rad = angle * M_PI / 180.0;  // Convert to radians
 
-void translate(int x, int y, int tx, int ty) {
-    setcolor(YELLOW);
-    line(x, y, x + 50, y);  // Draw original lines
-    line(x, y, x, y - 50);
+    // Translate point back to origin
+    float dx = x - px;
+    float dy = y - py;
 
-    setcolor(RED);  // Color for the translated lines
-    x = x + tx;     // Apply translation on X-axis
-    y = y + ty;     // Apply translation on Y-axis
-    line(x, y, x + 50, y);  // Draw translated lines
-    line(x, y, x, y - 50);
+    // Apply rotation
+    xr = px + (dx * cos(rad) - dy * sin(rad));
+    yr = py + (dx * sin(rad) + dy * cos(rad));
 }
 
-void scale(int x, int y, float sx, float sy) {
-    setcolor(YELLOW);
-    line(x, y, x + 50, y);  // Draw original lines
-    line(x, y, x, y - 50);
-
-    setcolor(RED);  // Color for the scaled lines
-    line(x, y, x + 50 * sx, y);   // Scale lines on X-axis
-    line(x, y, x, y - 50 * sy);   // Scale lines on Y-axis
-}
-
-void rotate(int x, int y, float angle) {
-    setcolor(YELLOW);
-    line(x, y, x + 50, y);  // Draw original lines
-    line(x, y, x, y - 50);
-
-    setcolor(RED);  // Color for the rotated lines
-    float rad = angle * 3.14159 / 180;  // Convert degrees to radians
-    line(x, y, x + 50 * cos(rad), y + 50 * sin(rad));  // Rotate line
-    line(x, y, x - 50 * sin(rad), y + 50 * cos(rad));  // Rotate line
-}
-/*
 int main() {
     int gd = DETECT, gm;
-    initgraph(&gd, &gm, (char*) "");
+    initgraph(&gd, &gm, (char*)"");
 
-    // Example usage
-    translate(100, 100, 50, 50); // Translate by (50, 50)
-    scale(300, 100, 1.5, 0.5);   // Scale by (1.5, 0.5)
-    rotate(500, 100, 45);        // Rotate by 45 degrees
+    // Original triangle vertices
+    int ax = 40, ay = 70;
+    int bx = 50, by = 50;
+    int cx = 30, cy = 60;
+
+    // Pivot point
+    int px = 30, py = 30;
+
+    // Draw original triangle in YELLOW
+    setcolor(YELLOW);
+    line(ax, ay, bx, by);
+    line(bx, by, cx, cy);
+    line(cx, cy, ax, ay);
+
+    // Rotated coordinates
+    int axr, ayr, bxr, byr, cxr, cyr;
+
+    rotatePoint(ax, ay, px, py, 45, axr, ayr);
+    rotatePoint(bx, by, px, py, 45, bxr, byr);
+    rotatePoint(cx, cy, px, py, 45, cxr, cyr);
+
+    // Draw rotated triangle in RED
+    setcolor(RED);
+    line(axr, ayr, bxr, byr);
+    line(bxr, byr, cxr, cyr);
+    line(cxr, cyr, axr, ayr);
 
     getch();
     closegraph();
     return 0;
-} 
-*/
+}
+

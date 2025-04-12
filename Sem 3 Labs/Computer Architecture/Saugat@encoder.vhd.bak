@@ -1,0 +1,20 @@
+library ieee;
+use ieee.std_logic_1164.all;
+entity encoder42 is
+	port (p: in std_logic_vector (3 downto 0);
+y : out std_logic_vector ( 1 downto 0 ) );
+end encoder42;
+
+architecture behavioral of encoder42 is
+begin
+process (p)
+begin
+case p is
+when "0001" =>y<="00";
+when "0010" =>y<="01";
+when "0100" =>y<="10";
+when "1000" =>y<="11";
+when others => y <= "UU";
+end case;
+end process;
+end behavioral;
